@@ -1,0 +1,91 @@
+﻿@using Microsoft.AspNetCore.Identity
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Store</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+
+    <style>
+        .navbar-nav .nav-link {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .navbar-nav .nav-item:first-child {
+            margin-left: 90px;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="border-radius:0px">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+                <div class="collapse navbar-collapse" id="navbarNav">
+                @if (User.IsInRole("Admin"))
+                {
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Admin" asp-action="Index">DashBoard</a>
+                        </li>
+                    </ul>
+                }
+                else
+                {
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Product Store</a>
+                        </li>
+                    </ul>
+                }
+                
+                    <ul class="navbar-nav">
+                    @if (User.Identity.IsAuthenticated || User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link " asp-controller="Products" asp-action="Index">Manage Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link fa-plus" asp-controller="Products" asp-action="AddProduct">Add Products</a>
+                            </li>
+                        }
+                       
+                        <li class="nav-item">
+                            <a class="nav-link" aasp-area="" asp-controller="Authentication" asp-action="Register">
+                                <i class="fas fa-user-plus"></i> Signup
+                            </a>
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Authentication" asp-action="Logout">
+                                    <i class="fas fa-sign-out-alt"></i> Logout
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Authentication" asp-action="Login">
+                                    <i class="fas fa-user"></i> Login
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+            </div>
+        </div>
+    </nav>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-zhx6d7HkVz6q8W/UErVziivHoqfcggdFA7VTaB/q/I9pWv2xbrCCB0yXr1PiS2v6" crossorigin="anonymous"></script>
+  
+    @RenderBody()
+</body>
+</html>

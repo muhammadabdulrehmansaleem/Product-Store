@@ -1,0 +1,18 @@
+﻿
+.navbar-nav .nav-link {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+.navbar-nav .nav-item:first-child {
+    margin-left: 0px;
+}
+@media (max-width: 767px) {
+    .navbar-nav {
+        flex-direction: column;
+    }
+
+        .navbar-nav .nav-item {
+            width: 100%;
+        }
+}

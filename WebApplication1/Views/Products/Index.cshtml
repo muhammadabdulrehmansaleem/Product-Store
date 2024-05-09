@@ -1,0 +1,69 @@
+﻿@model List<WebApplication1.Models.Products.Products>
+@using WebApplication1.Models.Pagination;
+<link href="~/css/index.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="~/css/ProductIndex.css" rel="stylesheet" />
+@{
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
+}
+
+<header>
+    <div class="container1">
+        <h1>Welcome to Product Store</h1>
+        <form action="/Products/SearchProduct" class="search-form" method="get">
+            <input type="text" name="searchTerm" placeholder="Search Products" class="search-bar">
+            @if (!string.IsNullOrEmpty(ViewBag.userEmail))
+            {
+                <input type="text" hidden name="email" value="@ViewBag.userEmail">
+            }
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+    </div>
+</header>
+<section style="margin: 20px;">
+    @if(Model.Count<1)
+    {
+        <div class="message">
+            <p>You have not added any products, please add your products.</p>
+        </div>
+
+    }
+
+    <div class="container">
+        @foreach (var product in Model)
+        {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100">
+                <div class="product-card">
+                    <img src="data:image;base64,@Convert.ToBase64String(product.Shape)" alt="Product Image" class="card-img-top">
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title" style="font-size: 1.25rem;">@product.Name</h5>
+                    <p class="card-text" style="font-size: 1.25rem;">Price: $@product.Price</p>
+                        <form action="/Products/ViewProduct" method="post">
+                            <input type="hidden" name="id" value="@product.Id" />
+                            <button type="submit" class="btn-2" style="font-size: 1.25rem;">View</button>
+                        </form>
+                </div>
+            </div>
+        </div>
+        }
+        </div>
+    <div class="container">
+        <ul class="pagination justify-content-end">
+            @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+            {
+                <li class="page-item @(pge==pager.CurrentPage? "active":"")">
+                    <a class="page-link" asp-controller="Products" asp-action="Index" asp-route-pg="@pge">@pge</a>
+                </li>
+            }
+        </ul>
+    </div>
+</section>
